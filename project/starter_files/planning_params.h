@@ -16,6 +16,7 @@
 #define P_NUM_PATHS 1                  // TODO - Num of paths (goals)
 #define P_LOOKAHEAD_MIN 8.0            // m
 #define P_LOOKAHEAD_MAX 20.0           // m
+#define P_LOOKAHEAD_COMFORT_ACCEL (-3.0) // m/s^2
 #define P_LOOKAHEAD_TIME 1.5           // s
 #define P_GOAL_OFFSET 1.0              // m
 #define P_ERR_TOLERANCE 0.1            // m
