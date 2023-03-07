@@ -72,7 +72,7 @@ double collision_circles_cost_spiral(const std::vector<PathPoint>& spiral,
           // obstacle/actor
           double dx = cur_x - actor_center_x;
           double dy = cur_y - actor_center_y;
-          double dist = std::sqrt(std::pow(dx, 2.0) + std::pow(dy, 2.0));  // <- Update
+          double dist = std::sqrt(dx * dx + dy * dy);  // <- Update
 
           collision = (dist < (CIRCLE_RADII[c] + CIRCLE_RADII[c2]));
         }
