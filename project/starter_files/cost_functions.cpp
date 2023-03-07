@@ -95,16 +95,21 @@ double close_to_main_goal_cost_spiral(const std::vector<PathPoint>& spiral,
   // 1].y and spiral[n - 1].z.
   // Use main_goal.location.x, main_goal.location.y and main_goal.location.z
   // Ex: main_goal.location.x - spiral[n - 1].x
-  auto delta_x = spiral.at(n - 1).x - main_goal.location.x;  // <- Update
-  auto delta_y = spiral.at(n - 1).y - main_goal.location.y;  // <- Update
-  auto delta_z = spiral.at(n - 1).z - main_goal.location.z;  // <- Update
+  double cost = 0.0;
+  double dist = 0.0;
+  if (n >= 1)
+  {
+    auto delta_x = spiral.at(n - 1).x - main_goal.location.x;  // <- Update
+    auto delta_y = spiral.at(n - 1).y - main_goal.location.y;  // <- Update
+    auto delta_z = spiral.at(n - 1).z - main_goal.location.z;  // <- Update
 
-  auto dist = std::sqrt((delta_x * delta_x) + (delta_y * delta_y) +
-                        (delta_z * delta_z));
+    dist = std::sqrt((delta_x * delta_x) + (delta_y * delta_y) + (delta_z * delta_z));
 
-  auto cost = logistic(dist);
-  // LOG(INFO) << "distance to main goal: " << dist;
-  // LOG(INFO) << "cost (log): " << cost;
+    cost = logistic(dist);
+  }
+
+  LOG(INFO) << "distance to main goal: " << dist;
+  LOG(INFO) << "cost (log): " << cost;
   return cost;
 }
 }  // namespace cost_functions
