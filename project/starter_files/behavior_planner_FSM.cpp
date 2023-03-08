@@ -167,7 +167,7 @@ State BehaviorPlannerFSM::state_transition(const State& ego_state, State goal,
       auto speed = std::min(_speed_limit, utils::magnitude(ego_state.velocity));
       goal.velocity.x = speed * std::cos(goal.rotation.yaw);  // <- Fix This
       goal.velocity.y = speed * std::sin(goal.rotation.yaw);  // <- Fix This
-      goal.velocity.z = ego_state.velocity.z;
+      goal.velocity.z = 0.0;
     }
 
   } else if (_active_maneuver == DECEL_TO_STOP) {
