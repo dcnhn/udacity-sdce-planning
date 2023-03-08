@@ -74,13 +74,19 @@ double BehaviorPlannerFSM::get_look_ahead_distance(const State& ego_state) {
   auto velocity_mag = utils::magnitude(ego_state.velocity);
   auto accel_mag = utils::magnitude(ego_state.acceleration);
 
+  // Compute covered distance within P_LOOKAHEAD_TIME
+  // s_pred = 1/2 * a * t^2 + v * t
+  double predicted_distance = 0.5 * accel_mag * P_LOOKAHEAD_TIME * P_LOOKAHEAD_TIME + velocity_mag * P_LOOKAHEAD_TIME;
+
+  // Compute brake distance for an assumed comfortable deceleration
+  // Equation is derived from
+  // vEnd = sqrt(2 * P_LOOKAHEAD_COMFORT_DECEL * look_ahead_distance + velocity_mag^2), vEnd = 0
+  double brake_distance = -(0.5 * velocity_mag * velocity_mag) / P_LOOKAHEAD_COMFORT_DECEL;
+
   // TODO-Lookahead: One way to find a reasonable lookahead distance is to find
   // the distance you will need to come to a stop while traveling at speed V and
   // using a comfortable deceleration.
-  //
-  // Equation derived from:
-  // vEnd = sqrt(2 * P_LOOKAHEAD_COMFORT_ACCEL * look_ahead_distance + velocity_mag^2), vEnd = 0
-  auto look_ahead_distance = -(0.5 * velocity_mag * velocity_mag) / P_LOOKAHEAD_COMFORT_ACCEL;  // <- Fix This
+  auto look_ahead_distance = std::max(predicted_distance, brake_distance);  // <- Fix This
 
   // LOG(INFO) << "Calculated look_ahead_distance: " << look_ahead_distance;
 
